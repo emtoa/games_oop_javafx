@@ -4,14 +4,11 @@ import ru.job4j.chess.firuges.Cell;
 import ru.job4j.chess.firuges.Figure;
 
 import java.util.Arrays;
-import java.util.Optional;
 
 /**
- * //TODO add comments.
  *
  * @author Petr Arsentev (parsentev@yandex.ru)
  * @version $Id$
- * @since 0.1
  */
 public class Logic {
     private final Figure[] figures = new Figure[32];
@@ -23,13 +20,30 @@ public class Logic {
 
     public boolean move(Cell source, Cell dest) {
         boolean rst = false;
-        int index = this.findBy(source);
-        if (index != -1) {
-            Cell[] steps = this.figures[index].way(source, dest);
-            if (steps.length > 0 && steps[steps.length - 1].equals(dest)) {
-                rst = true;
-                this.figures[index] = this.figures[index].copy(dest);
+        boolean employed = false;
+
+        try {
+            int index = this.findBy(source);
+            if (index != -1) {
+                Cell[] steps = this.figures[index].way(source, dest);
+
+
+                for (int i = 0; i < steps.length; i++){
+                    for (int j = 0; j < this.figures.length; j++){
+                        if (steps[i].getX() == this.figures[j].position().getX() &&
+                                steps[i].getY() == this.figures[j].position().getY()){
+                            employed = true;
+                            break;
+                        }
+                    }
+                }
+                if (employed == false && steps.length > 0 && steps[steps.length - 1].equals(dest)) {
+                    rst = true;
+                    this.figures[index] = this.figures[index].copy(dest);
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return rst;
     }
@@ -55,7 +69,7 @@ public class Logic {
     @Override
     public String toString() {
         return "Logic{" +
-                "figures=" + Arrays.toString(this.figures) +
-                '}';
+                "figures=" + Arrays.toString(this.figures)
+                + '}';
     }
 }
