@@ -27,17 +27,9 @@ public class Logic {
             if (index != -1) {
                 Cell[] steps = this.figures[index].way(source, dest);
 
+                employed = isEmployed(steps);
 
-                for (int i = 0; i < steps.length; i++){
-                    for (int j = 0; j < this.figures.length; j++){
-                        if (steps[i].getX() == this.figures[j].position().getX() &&
-                                steps[i].getY() == this.figures[j].position().getY()){
-                            employed = true;
-                            break;
-                        }
-                    }
-                }
-                if (employed == false && steps.length > 0 && steps[steps.length - 1].equals(dest)) {
+                if (!employed && steps.length > 0 && steps[steps.length - 1].equals(dest)) {
                     rst = true;
                     this.figures[index] = this.figures[index].copy(dest);
                 }
@@ -46,6 +38,17 @@ public class Logic {
             e.printStackTrace();
         }
         return rst;
+    }
+
+    public boolean isEmployed(Cell[] cell){
+        boolean ismployed = false;
+        for (int i = 0; i < cell.length; i++){
+            if (this.findBy(cell[i]) != -1){
+                    ismployed = true;
+                    break;
+             }
+        }
+    return ismployed;
     }
 
     public void clean() {
