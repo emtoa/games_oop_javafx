@@ -27,17 +27,38 @@ public class Logic3T {
         return this.fillBy(Figure3T::hasMarkX, 0, 0, 1, 0) ||
                 this.fillBy(Figure3T::hasMarkX, 0, 0, 0, 1) ||
                 this.fillBy(Figure3T::hasMarkX, 0,0, 1, 1) ||
-                this.fillBy(Figure3T::hasMarkX, this.table.length - 1 , 0, -1, 1);
+                this.fillBy(Figure3T::hasMarkX, this.table.length - 1 , 0, -1, 1) ||
+                this.fillBy(Figure3T::hasMarkX, 0,1, 1, 0) ||
+                this.fillBy(Figure3T::hasMarkX, 1,0, 0, 1) ||
+                this.fillBy(Figure3T::hasMarkX, 0,this.table.length - 1, 1, 0) ||
+                this.fillBy(Figure3T::hasMarkX, this.table.length - 1,0, 0, 1);
     }
 
     public boolean isWinnerO() {
         return this.fillBy(Figure3T::hasMarkO, 0, 0, 1, 0) ||
                 this.fillBy(Figure3T::hasMarkO, 0, 0, 0, 1) ||
                 this.fillBy(Figure3T::hasMarkO, 0,0, 1, 1) ||
-                this.fillBy(Figure3T::hasMarkO, this.table.length - 1, 0, -1, 1);
+                this.fillBy(Figure3T::hasMarkO, this.table.length - 1 , 0, -1, 1) ||
+                this.fillBy(Figure3T::hasMarkO, 0,1, 1, 0) ||
+                this.fillBy(Figure3T::hasMarkO, 1,0, 0, 1) ||
+                this.fillBy(Figure3T::hasMarkO, 0,this.table.length - 1, 1, 0) ||
+                this.fillBy(Figure3T::hasMarkO, this.table.length - 1,0, 0, 1);
     }
 
     public boolean hasGap() {
-        return true;
+
+        Predicate<Figure3T> markO = Figure3T::hasMarkO;
+        Predicate<Figure3T> markX = Figure3T::hasMarkX;
+
+        return !this.fillBy(markO.or(markX), 0, 0, 1, 0) ||
+                !this.fillBy(markO.or(markX), 0, 0, 0, 1) ||
+                !this.fillBy(markO.or(markX), 0,0, 1, 1) ||
+                !this.fillBy(markO.or(markX), this.table.length - 1 , 0, -1, 1) ||
+                !this.fillBy(markO.or(markX), 0,1, 1, 0) ||
+                !this.fillBy(markO.or(markX), 1,0, 0, 1) ||
+                !this.fillBy(markO.or(markX), 0,this.table.length - 1, 1, 0) ||
+                !this.fillBy(markO.or(markX), this.table.length - 1,0, 0, 1);
+
+
     }
 }
